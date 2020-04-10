@@ -1,0 +1,2 @@
+beginner_tutorials:need4speed_runtime_monitoring:vesc_msgs:xu_runtime_monitoring
+-DCATKIN_DEVEL_PREFIX=/home/stark/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/stark/catkin_ws/install -G Unix Makefiles
