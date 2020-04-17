@@ -1,0 +1,50 @@
+    void set_accel(double accel_) {
+        accel = std::min(std::max(accel_, -max_accel), max_accel);
+    }
+
+    void set_steer_angle_vel(double steer_angle_vel_) {
+        steer_angle_vel = std::min(std::max(steer_angle_vel_, -max_steering_vel), max_steering_vel);
+    }
+ 
+    double compute_steer_vel(double desired_angle) {
+        // get difference between current and desired
+        double dif = (desired_angle - state.steer_angle);
+
+        // calculate velocity
+        double steer_vel;
+        if (std::abs(dif) > .0001)  // if the difference is not trivial
+            steer_vel = dif / std::abs(dif) * max_steering_vel;
+        else {
+            steer_vel = 0;
+        }
+
+        return steer_vel;
+    }
+
+    void compute_accel(double desired_velocity) {
+        // get difference between current and desired
+        double dif = (desired_velocity - state.velocity);
+
+        if (state.velocity > 0) {
+            if (dif > 0) {
+                // accelerate
+                double kp = 2.0 * max_accel / max_speed;
+                set_accel(kp * dif);
+            } else {
+                // brake
+                accel = -max_decel;
+            }
+        } else {
+            if (dif > 0) {
+                // brake
+                accel = max_decel;
+
+            } else {
+                // accelerate
+                double kp = 2.0 * max_accel / max_speed;
+                set_accel(kp * dif);
+            }
+        }
+    }
+
+
